@@ -11,3 +11,4 @@ class User(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(Text, nullable=False, default='')
     password = Column(Text, nullable=False, default='')
+    token = Column(Text, nullable=False, default='')

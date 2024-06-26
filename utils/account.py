@@ -18,14 +18,16 @@ class AccountService:
     def signup(self, email: str, password: str):
 
         try:
+            token = self.generate_token()
             new_user = User(
                 email=email,
-                password=password
+                password=password,
+                token=token
             )
             self.db_session.add(new_user)
             self.db_session.commit()
             self.db_session.refresh(new_user)
-            return True
+            return token
         except Exception as e:
             print(e)
             return False
@@ -35,7 +37,7 @@ class AccountService:
             user = self.db_session.query(User).filter_by(email=email).first()
             if user:
                 if user.password == password:
-                    return True
+                    return user.token
             return False
         except Exception as e:
             return False
