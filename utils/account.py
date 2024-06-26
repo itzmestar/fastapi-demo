@@ -30,3 +30,12 @@ class AccountService:
             print(e)
             return False
 
+    def login(self, email: str, password: str):
+        try:
+            user = self.db_session.query(User).filter_by(email=email).first()
+            if user:
+                if user.password == password:
+                    return True
+            return False
+        except Exception as e:
+            return False

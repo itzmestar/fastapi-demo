@@ -26,3 +26,15 @@ async def signup(request: SignupRequest, db: Session = Depends(get_db)):
 
     raise HTTPException(status_code=400, detail="Bad request")
 
+
+@router.post('/login', tags=["Account"])
+async def login(request: SignupRequest, db: Session = Depends(get_db)):
+    """ EP to login the user"""
+    account_service = AccountService(db)
+
+    if account_service.login(request.email, request.password):
+        return {
+            'token': account_service.generate_token()
+        }
+
+    raise HTTPException(status_code=400, detail="Bad request")
