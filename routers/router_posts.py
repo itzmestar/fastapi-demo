@@ -40,3 +40,13 @@ async def add_post(request: PostsRequest, user: str = Depends(verify_token)):
         }
 
     return {"postID": post_id}
+
+
+@router.post('/GetPosts', tags=["Posts"])
+async def get_post(request, user: str = Depends(verify_token)):
+    # return from the in-memory storage
+    if user in posts_db:
+        return posts_db[user]
+    else:
+        return {}
+
