@@ -50,3 +50,16 @@ async def get_post(request, user: str = Depends(verify_token)):
     else:
         return {}
 
+
+class DeletePostsRequest(BaseModel):
+    postID: str
+
+
+@router.post('/DeletePost', tags=["Posts"])
+async def delete_post(request: DeletePostsRequest, user: str = Depends(verify_token)):
+    # return from the in-memory storage
+    if user in posts_db:
+        if request.postID in posts_db[user]:
+            del posts_db[user][request.postID]
+
+    return {}
